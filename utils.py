@@ -1,7 +1,5 @@
 import numpy as np
-import pandas as pd
 from datetime import datetime
-from sklearn.model_selection import train_test_split
 
 def split_data(stock, lookback):
     data_raw = stock.to_numpy() 
@@ -78,3 +76,8 @@ def prepare_regression_data(X_data, y_data, look_back=30):
         dataY.append(y_data[i + look_back + 1, 0])
 
     return np.array(dataX), np.array(dataY)
+
+def get_accuracy(y_prob,y_true):
+    assert y_true.ndim == 1 and y_true.size() == y_prob.size()
+    y_prob = y_prob > 0.5
+    return (y_true == y_prob).sum().item() / y_true.size(0)
